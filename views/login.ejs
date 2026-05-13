@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<div class="auth-form">
+  <h1>Вхід</h1>
+
+  <% if (errors.length > 0) { %>
+    <div class="alert alert-error">
+      <ul>
+        <% errors.forEach(function(e){ %><li><%= e %></li><% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form method="POST" action="/auth/login" novalidate>
+    <label>
+      Email
+      <input type="email" name="email" value="<%= form.email || '' %>" required>
+    </label>
+    <label>
+      Пароль
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit" class="btn-primary btn-large">Увійти</button>
+  </form>
+
+  <p class="auth-link">
+    Немає акаунта? <a href="/auth/register">Зареєструватися</a>
+  </p>
+</div>
+
+<%- include('partials/footer') %>

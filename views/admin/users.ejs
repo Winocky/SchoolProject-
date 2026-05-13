@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<a href="/admin" class="back-link">← До адмін-панелі</a>
+<h1>Користувачі</h1>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Ім'я</th>
+      <th>Email</th>
+      <th>Телефон</th>
+      <th>Роль</th>
+      <th>Реєстрацій</th>
+      <th>Зареєстрований</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach(function(u, i){ %>
+      <tr>
+        <td><%= i + 1 %></td>
+        <td><%= u.name %></td>
+        <td><%= u.email %></td>
+        <td><%= u.phone || '—' %></td>
+        <td>
+          <span class="badge badge-<%= u.role %>"><%= u.role %></span>
+        </td>
+        <td><%= u.reg_count %></td>
+        <td><%= new Date(u.created_at).toLocaleString('uk-UA') %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+
+<h1>Адмін-панель</h1>
+
+<div class="stats">
+  <div class="stat-card"><span class="stat-number"><%= stats.events %></span> заходів</div>
+  <div class="stat-card"><span class="stat-number"><%= stats.users %></span> користувачів</div>
+  <div class="stat-card"><span class="stat-number"><%= stats.registrations %></span> реєстрацій</div>
+</div>
+
+<div class="admin-actions">
+  <a href="/admin/events/new" class="btn-primary">+ Новий захід</a>
+  <a href="/admin/users" class="btn-secondary">Користувачі</a>
+</div>
+
+<h2>Заходи</h2>
+
+<% if (events.length === 0) { %>
+  <p class="empty">Заходів ще немає. <a href="/admin/events/new">Створити перший</a></p>
+<% } else { %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Назва</th>
+        <th>Дата</th>
+        <th>Місце</th>
+        <th>Категорія</th>
+        <th>Зареєстровано</th>
+        <th>Дії</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% events.forEach(function(ev){ %>
+        <tr>
+          <td><a href="/events/<%= ev.id %>"><%= ev.title %></a></td>
+          <td><%= new Date(ev.event_date).toLocaleString('uk-UA') %></td>
+          <td><%= ev.location %></td>
+          <td><%= ev.category %></td>
+          <td>
+            <a href="/admin/events/<%= ev.id %>/registrations">
+              <%= ev.registered_count %> / <%= ev.max_seats %>
+            </a>
+          </td>
+          <td class="actions">
+            <a href="/admin/events/<%= ev.id %>/edit" class="btn-link">Редагувати</a>
+            <form action="/admin/events/<%= ev.id %>/delete" method="POST" class="inline-form"
+                  onsubmit="return confirm('Видалити захід «<%= ev.title %>»?');">
+              <button type="submit" class="btn-link danger">Видалити</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('../partials/footer') %>

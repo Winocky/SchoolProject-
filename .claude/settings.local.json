@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(node --check src/app.js)",
+      "Bash(node --check src/db.js)",
+      "Bash(node --check src/mailer.js)",
+      "Bash(node --check src/routes/index.js)",
+      "Bash(node --check src/routes/auth.js)",
+      "Bash(docker compose *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npm start *)",
+      "Bash(curl -s -o /dev/null -w \"Главная: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"Логин: %{http_code}\\\\n\" http://localhost:3000/auth/login)",
+      "Bash(curl -s -o /dev/null -w \"Регистрация: %{http_code}\\\\n\" http://localhost:3000/auth/register)",
+      "Bash(curl -s -o /dev/null -w \"Деталь события 1: %{http_code}\\\\n\" http://localhost:3000/events/1)",
+      "Bash(curl -s -o /dev/null -w \"404: %{http_code}\\\\n\" http://localhost:3000/no-such-page)",
+      "Bash(docker exec school-event-mysql *)"
+    ]
+  }
+}

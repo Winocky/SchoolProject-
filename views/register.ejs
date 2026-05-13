@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<div class="auth-form">
+  <h1>Реєстрація</h1>
+
+  <% if (errors.length > 0) { %>
+    <div class="alert alert-error">
+      <ul>
+        <% errors.forEach(function(e){ %><li><%= e %></li><% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form method="POST" action="/auth/register" id="registerForm" novalidate>
+    <label>
+      Ім'я
+      <input type="text" name="name" value="<%= form.name || '' %>" required minlength="2">
+    </label>
+    <label>
+      Email
+      <input type="email" name="email" value="<%= form.email || '' %>" required>
+    </label>
+    <label>
+      Телефон (необов'язково)
+      <input type="tel" name="phone" value="<%= form.phone || '' %>">
+    </label>
+    <label>
+      Пароль
+      <input type="password" name="password" required minlength="6">
+      <small>Мінімум 6 символів, має містити букву та цифру.</small>
+    </label>
+    <button type="submit" class="btn-primary btn-large">Зареєструватися</button>
+  </form>
+
+  <p class="auth-link">
+    Вже маєте акаунт? <a href="/auth/login">Увійти</a>
+  </p>
+</div>
+
+<%- include('partials/footer') %>

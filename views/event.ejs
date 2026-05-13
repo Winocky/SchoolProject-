@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+
+<article class="event-detail">
+  <a href="/" class="back-link">← До списку заходів</a>
+
+  <% if (event.image_url) { %>
+    <img src="<%= event.image_url %>" alt="<%= event.title %>" class="event-detail-image">
+  <% } %>
+
+  <span class="event-category"><%= event.category %></span>
+  <h1><%= event.title %></h1>
+
+  <div class="event-info">
+    <div class="info-item">
+      <strong>Дата та час:</strong>
+      <%= new Date(event.event_date).toLocaleString('uk-UA') %>
+    </div>
+    <div class="info-item">
+      <strong>Місце:</strong> <%= event.location %>
+    </div>
+    <div class="info-item">
+      <strong>Зайнято місць:</strong>
+      <%= event.registered_count %> з <%= event.max_seats %>
+    </div>
+  </div>
+
+  <h2>Опис</h2>
+  <p class="event-detail-description"><%= event.description %></p>
+
+  <div class="event-actions">
+    <% if (!currentUser) { %>
+      <p>
+        Щоб зареєструватись на захід, <a href="/auth/login">увійдіть</a>
+        або <a href="/auth/register">створіть акаунт</a>.
+      </p>
+    <% } else if (alreadyRegistered) { %>
+      <div class="alert alert-success">
+        ✓ Ви вже зареєстровані на цей захід.
+      </div>
+      <form action="/events/<%= event.id %>/cancel" method="POST"
+            onsubmit="return confirm('Скасувати реєстрацію?');">
+        <button type="submit" class="btn-secondary">Скасувати реєстрацію</button>
+      </form>
+    <% } else if (event.registered_count >= event.max_seats) { %>
+      <div class="alert alert-error">На жаль, всі місця вже зайнято.</div>
+    <% } else if (new Date(event.event_date) < new Date()) { %>
+      <div class="alert alert-error">Реєстрація на цей захід вже закрита.</div>
+    <% } else { %>
+      <form action="/events/<%= event.id %>/signup" method="POST">
+        <button type="submit" class="btn-primary btn-large">Зареєструватися на захід</button>
+      </form>
+    <% } %>
+  </div>
+</article>
+
+<%- include('partials/footer') %>

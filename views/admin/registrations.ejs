@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+
+<a href="/admin" class="back-link">← До адмін-панелі</a>
+<h1>Реєстрації на захід</h1>
+<h2><%= event.title %></h2>
+<p class="event-meta">
+  🗓 <%= new Date(event.event_date).toLocaleString('uk-UA') %> ·
+  📍 <%= event.location %> ·
+  Місць: <%= users.length %> / <%= event.max_seats %>
+</p>
+
+<% if (users.length === 0) { %>
+  <p class="empty">На цей захід ще ніхто не зареєструвався.</p>
+<% } else { %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Ім'я</th>
+        <th>Email</th>
+        <th>Телефон</th>
+        <th>Дата реєстрації</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(function(u, i){ %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><%= u.phone || '—' %></td>
+          <td><%= new Date(u.registered_at).toLocaleString('uk-UA') %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('../partials/footer') %>

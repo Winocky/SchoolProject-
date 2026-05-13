@@ -1,0 +1,73 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <h1>Майбутні заходи</h1>
+  <p>Знайдіть цікаву подію та зареєструйтесь онлайн за кілька кліків.</p>
+</section>
+
+<form class="filters" method="GET" action="/">
+  <div class="filter-row">
+    <label>
+      Пошук
+      <input type="text" name="q" value="<%= filter.q %>" placeholder="Назва або опис...">
+    </label>
+    <label>
+      Категорія
+      <select name="category">
+        <option value="">Всі категорії</option>
+        <% categories.forEach(function(cat){ %>
+          <option value="<%= cat %>" <%= filter.category === cat ? 'selected' : '' %>>
+            <%= cat %>
+          </option>
+        <% }) %>
+      </select>
+    </label>
+    <label>
+      З
+      <input type="date" name="from" value="<%= filter.from %>">
+    </label>
+    <label>
+      По
+      <input type="date" name="to" value="<%= filter.to %>">
+    </label>
+    <div class="filter-actions">
+      <button type="submit" class="btn-primary">Застосувати</button>
+      <a href="/" class="btn-link">Скинути</a>
+    </div>
+  </div>
+</form>
+
+<% if (events.length === 0) { %>
+  <p class="empty">Подій за обраними фільтрами не знайдено.</p>
+<% } else { %>
+  <div class="events-grid">
+    <% events.forEach(function(ev){ %>
+      <article class="event-card">
+        <% if (ev.image_url) { %>
+          <img src="<%= ev.image_url %>" alt="<%= ev.title %>" class="event-image">
+        <% } else { %>
+          <div class="event-image placeholder">📅</div>
+        <% } %>
+        <div class="event-body">
+          <span class="event-category"><%= ev.category %></span>
+          <h2><a href="/events/<%= ev.id %>"><%= ev.title %></a></h2>
+          <p class="event-meta">
+            🗓 <%= new Date(ev.event_date).toLocaleString('uk-UA') %><br>
+            📍 <%= ev.location %>
+          </p>
+          <p class="event-description">
+            <%= ev.description.length > 150 ? ev.description.slice(0, 150) + '…' : ev.description %>
+          </p>
+          <div class="event-footer">
+            <span class="seats">
+              Місць: <%= ev.registered_count %> / <%= ev.max_seats %>
+            </span>
+            <a href="/events/<%= ev.id %>" class="btn-primary">Детальніше</a>
+          </div>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>

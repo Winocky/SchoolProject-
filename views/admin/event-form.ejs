@@ -1,0 +1,72 @@
+<%- include('../partials/header') %>
+
+<a href="/admin" class="back-link">← До адмін-панелі</a>
+<h1><%= event && event.id ? 'Редагування заходу' : 'Новий захід' %></h1>
+
+<% if (errors.length > 0) { %>
+  <div class="alert alert-error">
+    <ul><% errors.forEach(function(e){ %><li><%= e %></li><% }) %></ul>
+  </div>
+<% } %>
+
+<form method="POST"
+      action="<%= event && event.id ? '/admin/events/' + event.id : '/admin/events' %>"
+      class="event-form">
+  <label>
+    Назва заходу *
+    <input type="text" name="title" required minlength="3"
+           value="<%= event ? event.title : '' %>">
+  </label>
+
+  <label>
+    Опис *
+    <textarea name="description" rows="5" required minlength="10"><%= event ? event.description : '' %></textarea>
+  </label>
+
+  <div class="form-row">
+    <label>
+      Дата і час *
+      <input type="datetime-local" name="event_date" required
+             value="<%= event ? (event.event_date_input || event.event_date) : '' %>">
+    </label>
+
+    <label>
+      Місце проведення *
+      <input type="text" name="location" required
+             value="<%= event ? event.location : '' %>">
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      Категорія
+      <select name="category">
+        <% const cats = ['general','lecture','training','seminar','workshop','concert']; %>
+        <% cats.forEach(function(c){ %>
+          <option value="<%= c %>" <%= event && event.category === c ? 'selected' : '' %>><%= c %></option>
+        <% }) %>
+      </select>
+    </label>
+
+    <label>
+      Кількість місць
+      <input type="number" name="max_seats" min="1" max="100000"
+             value="<%= event ? event.max_seats : 100 %>">
+    </label>
+  </div>
+
+  <label>
+    URL зображення (необов'язково)
+    <input type="url" name="image_url" placeholder="https://..."
+           value="<%= event && event.image_url ? event.image_url : '' %>">
+  </label>
+
+  <div class="form-actions">
+    <button type="submit" class="btn-primary btn-large">
+      <%= event && event.id ? 'Зберегти зміни' : 'Створити захід' %>
+    </button>
+    <a href="/admin" class="btn-link">Скасувати</a>
+  </div>
+</form>
+
+<%- include('../partials/footer') %>

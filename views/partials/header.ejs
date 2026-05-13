@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> · Реєстрація на заходи</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">EventReg</a>
+      <nav class="main-nav">
+        <a href="/">Заходи</a>
+        <% if (currentUser) { %>
+          <a href="/events/my/list">Мої реєстрації</a>
+          <% if (currentUser.role === 'admin') { %>
+            <a href="/admin">Адмін-панель</a>
+          <% } %>
+          <span class="nav-user">Привіт, <%= currentUser.name %></span>
+          <form action="/auth/logout" method="POST" class="inline-form">
+            <button type="submit" class="btn-link">Вийти</button>
+          </form>
+        <% } else { %>
+          <a href="/auth/login">Вхід</a>
+          <a href="/auth/register" class="btn-primary">Реєстрація</a>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <% if (flash.success && flash.success.length > 0) { %>
+      <% flash.success.forEach(function(msg){ %>
+        <div class="alert alert-success"><%= msg %></div>
+      <% }) %>
+    <% } %>
+    <% if (flash.error && flash.error.length > 0) { %>
+      <% flash.error.forEach(function(msg){ %>
+        <div class="alert alert-error"><%= msg %></div>
+      <% }) %>
+    <% } %>

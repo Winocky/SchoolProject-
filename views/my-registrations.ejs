@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+
+<h1>Мої реєстрації</h1>
+
+<% if (events.length === 0) { %>
+  <p class="empty">Ви ще не зареєстровані на жоден захід. <a href="/">Переглянути заходи</a></p>
+<% } else { %>
+  <div class="events-list">
+    <% events.forEach(function(ev){ %>
+      <article class="event-row">
+        <div>
+          <h2><a href="/events/<%= ev.id %>"><%= ev.title %></a></h2>
+          <p class="event-meta">
+            🗓 <%= new Date(ev.event_date).toLocaleString('uk-UA') %> ·
+            📍 <%= ev.location %>
+          </p>
+          <small>Зареєстровано: <%= new Date(ev.registered_at).toLocaleString('uk-UA') %></small>
+        </div>
+        <form action="/events/<%= ev.id %>/cancel" method="POST"
+              onsubmit="return confirm('Скасувати реєстрацію?');">
+          <button type="submit" class="btn-secondary">Скасувати</button>
+        </form>
+      </article>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>
